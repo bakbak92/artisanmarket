@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Article from '@/components/Article'
 import Profil from '@/components/Profil'
 import Panier from '@/components/Panier'
+import Admin from '@/components/Admin'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/Profil',
       name: 'Profil',
       component: Profil
+    },
+    {
+      path: '/Admin',
+      name: 'Admin',
+      component: Admin
     }
 
   ]

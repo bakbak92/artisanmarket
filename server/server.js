@@ -1,6 +1,6 @@
 const express = require('express')
 const db = require('./models/db.js')
-const users = require('./models/articleModel.js')
+const articleModel = require('./models/articleModel.js')
 const artisanModel = require('./models/artisanModel.js')
 const app = express()
 const cors = require('cors')
@@ -13,16 +13,16 @@ app.use(express.json()) //ce middleware express parse le json envoyé en POST
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post('/signup', function(req, res) {
+app.post('/signupartisan', function(req, res) {
   const {nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan} = req.body
-  artisanModel.signUp({nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan})
+  artisanModel.signUpArtisan({nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan})
   .then(result => res.json(result))
   .then(err => res.json(err))
 })
 
 app.post('/article', function(req, res) {
-  const {nom, description, image} = req.body;
-  users.addArticle({nom, description, image})
+  const {nom_article, description_article, image_article, prix_article} = req.body;
+  articleModel.addArticle({nom_article, description_article, image_article, prix_article})
   .then(result => res.json(result))
   .catch(err => res.json(err))
 })
@@ -30,12 +30,31 @@ app.get('/', function (req, res) {
   res.send('Hello World!')
 })
 
+app.post('/signinartisan', function(req, res) {
+  const {email_artisan, password_artisan} = req.body
+  artisanModel.signInArtisan({email_artisan, password_artisan})
+  .then(result => res.json(result))
+  .catch(err => res.json(err))
+})
 app.get('/articles', (req, res) => {
-    users.getArticles()
+    articleModel.getArticles()
       .then(result => res.json(result))
       .catch(err => res.json(err))
   });
 
+app.put('/updatearticle', (req, res) => {
+  const {id, nom_article, description_article, image_article, prix_article} = req.body
+  articleModel.updateArticle({id, nom_article, description_article, image_article, prix_article})
+    .then(result => res.json(result))
+    .catch(err => res.json(err))
+})
+
+app.delete('/deletearticle', (req, res) => {
+  const {id} = req.body
+  articleModel.deleteArticle({id})
+  .then(result => res.json(result))
+  .catch(err => res.json(err)) 
+})
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
