@@ -49,6 +49,9 @@ export const store = new Vuex.Store({
         },
         incrementquantite(state, payload){
             payload.quantité++
+        },
+        editArticle(state, payload) {
+            state
         }
         
     },
@@ -56,7 +59,10 @@ export const store = new Vuex.Store({
         getArticles(context){
             axios.get('http://localhost:3000/articles')
                 .then((response) => {
-                    const articles = response.data
+                    let articles = response.data
+                    articles.map(article => {
+                        article.modeEdit = false
+                    })
                     context.commit('getArticles', articles)
                 })
         },
@@ -78,6 +84,15 @@ export const store = new Vuex.Store({
                 context.commit('incrementquantite', articlePanier)
             }
             
+        },
+        editArticle(context, payload) {
+            const article ={
+                nom_article: payload.nom_article,
+                description_article: payload.description_article,
+                image_article: payload.image_article,
+                prix_article: payload.prix_article,
+            }
+            context.commit('editArticle', article) 
         }
     },
     getters: {
@@ -99,6 +114,13 @@ export const store = new Vuex.Store({
             return state.articlesPanier.reduce((total, article) =>
                 total + article.prix_article, val
             )
+        },
+        article(state) {
+            return (articleId) => {
+                return state.articles.find((article) => {
+                  return article.id === articleId
+                })
+              }
         }
     }
 })

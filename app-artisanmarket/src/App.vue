@@ -133,4 +133,17 @@ main{
 a.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link{
   color:#FFB6B9!important;
 }
+.v-dialog.v-dialog--active{
+    max-height: 100%!important;
+    .v-form{
+      padding: 1rem;
+    }
+  }
+.v-dialog{
+  -webkit-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
+}  
+.v-overlay:before {
+    background-color: #2121218c;
+}
 </style>

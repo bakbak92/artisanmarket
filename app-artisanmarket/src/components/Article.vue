@@ -5,7 +5,7 @@
             <div class="articles" v-for="article in articles" :key="article.id">
                 <v-card>
                     <v-card-media
-                    :src="article.imgage_article"
+                    :src="article.image_article"
                     height="200px"
                     ></v-card-media>
 
