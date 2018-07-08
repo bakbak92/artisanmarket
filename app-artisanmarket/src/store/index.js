@@ -50,8 +50,16 @@ export const store = new Vuex.Store({
         incrementquantite(state, payload){
             payload.quantité++
         },
+        deleteArticle(state, payload){
+            state.articles.filter((article) => {
+                article.id !== payload.id
+            })
+        },
         editArticle(state, payload) {
-            state
+            state.articles
+        },
+        addArticle(state, payload){
+            state.articles.push(payload)
         }
         
     },
@@ -93,6 +101,28 @@ export const store = new Vuex.Store({
                 prix_article: payload.prix_article,
             }
             context.commit('editArticle', article) 
+        },
+        deleteArticle(context, payload){
+            console.log(payload)
+            context.commit('deleteArticle', payload)
+            /*axios.delete(`http://localhost:3000/deletearticle/${payload.id}`)
+            .then((response) => {
+                console.log(response.data)
+                context.commit('deleteArticle', payload)
+            })
+            .catch((err) => {
+                console.log(err)
+            })*/
+        },
+        addArticle(context, payload) {
+            axios.post('http://localhost:3000/article', payload)
+            .then((response => {
+                console.log(response)
+                context.commit('addArticle', payload)
+            }))
+            .catch((err) => {
+                console.log(err)
+            })
         }
     },
     getters: {

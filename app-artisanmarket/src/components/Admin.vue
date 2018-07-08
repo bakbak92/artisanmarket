@@ -1,5 +1,43 @@
 <template>
     <v-container>
+        <div>
+            <div>
+                <v-btn color="primary" @click="ajoutArticle = true">Ajouter un article <v-icon>add</v-icon></v-btn>
+            </div>
+            <div class="form" v-if="ajoutArticle">
+                <v-form>
+                    <v-text-field
+                    label="nom article"
+                    v-model="article.nom_article"
+                    required>
+
+                    </v-text-field>
+                    <v-text-field
+                    label="description article"
+                    v-model="article.description_article"
+                    required>
+
+                    </v-text-field>
+                    <v-text-field
+                    label="prix article"
+                    v-model="article.prix_article"
+                    required>
+
+                    </v-text-field>
+                    <v-text-field
+                    label="image article"
+                    v-model="article.image_article"
+                    required>
+
+                    </v-text-field>
+                </v-form>
+                <div>
+                    <v-btn @click="addArticle">
+                        valider l'ajout
+                    </v-btn>
+                </div>
+            </div>
+        </div>
         <div class="articles" v-for="article in articles" :key="article.id">
             <v-card>
                 <v-card-media v-if="!article.modeEdit"
@@ -11,7 +49,7 @@
                         <v-layout fill-height>
                         <v-flex xs12 align-end flexbox class="content-icon">
                             <span class="edit"><v-icon @click.stop="article.modeEdit = true">edit</v-icon></span>
-                            <span class="delete"><v-icon @click="deleteArticle(article.id)">delete</v-icon></span>
+                            <span class="delete"><v-icon @click="deleteArticle(article)">delete</v-icon></span>
                         </v-flex>
                         </v-layout>
                     </v-container>
@@ -65,6 +103,13 @@ export default {
     data() {
         return {
             dialog: false,
+            article: {
+                nom_article: '',
+                description_article: '',
+                prix_article: 0,
+                image_article: ''
+            },
+            ajoutArticle: false
         }
     },
     computed: {
@@ -89,14 +134,20 @@ export default {
                 console.log(err)
             })
         },
-        deleteArticle(id){
-            axios.delete('http://localhost:3000/deletearticle', {id: id})
+        deleteArticle(article){
+            /*console.log(id)
+            axios.delete(`http://localhost:3000/deletearticle/${id}`)
             .then((response) => {
-                console.log(response)
+                console.log(response.data)
             })
             .catch((err) => {
                 console.log(err)
-            })
+            })*/
+            this.$store.dispatch('deleteArticle', article)
+        },
+        addArticle(){
+            this.$store.dispatch('addArticle', this.article)
+            this.ajoutArticle = false
         }
     }
 }

@@ -49,8 +49,8 @@ app.put('/updatearticle', (req, res) => {
     .catch(err => res.json(err))
 })
 
-app.delete('/deletearticle', (req, res) => {
-  const {id} = req.body
+app.delete('/deletearticle/:id', (req, res) => {
+  const {id} = req.params
   articleModel.deleteArticle({id})
   .then(result => res.json(result))
   .catch(err => res.json(err)) 
