@@ -49,7 +49,7 @@
                         <v-layout fill-height>
                         <v-flex xs12 align-end flexbox class="content-icon">
                             <span class="edit"><v-icon @click.stop="article.modeEdit = true">edit</v-icon></span>
-                            <span class="delete"><v-icon @click="deleteArticle(article)">delete</v-icon></span>
+                            <span class="delete"><v-icon @click.stop="deleteArticle(article.id)">delete</v-icon></span>
                         </v-flex>
                         </v-layout>
                     </v-container>
@@ -90,10 +90,10 @@
                     </v-btn>
                     <v-btn @click="article.modeEdit = false">Annuler</v-btn>
                     </div>
-                </v-form>   
+                </v-form>
             </v-card>
         </div>
-        
+
     </v-container>
 </template>
 <script>
@@ -143,6 +143,7 @@ export default {
             .catch((err) => {
                 console.log(err)
             })*/
+            //console.log(article)
             this.$store.dispatch('deleteArticle', article)
         },
         addArticle(){

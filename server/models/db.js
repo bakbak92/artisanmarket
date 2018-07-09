@@ -1,20 +1,19 @@
 const mysql = require('mysql');
 // en local
-const db = mysql.createConnection({
+/*const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
   database: "artisanmarket"
-});
+});*/
 
-/* on line
+
 const db = mysql.createConnection({
     host: "db4free.net",
     user: "bakbak",
     password: "bakbak92",
     database: "artisanmarket"
   });
-*/
 db.connect((err) => {
     if (err) {
         return console.log(err)
