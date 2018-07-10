@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('./models/db.js')
 const articleModel = require('./models/articleModel.js')
 const artisanModel = require('./models/artisanModel.js')
+const commentaireModel = require('./models/commentaireModel.js')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
@@ -54,6 +55,31 @@ app.delete('/deletearticle/:id', (req, res) => {
   articleModel.deleteArticle({id})
   .then(result => res.json(result))
   .catch(err => res.json(err)) 
+})
+
+app.post('/addcommentaire', (req, res) => {
+  const {title_commentaire, detail_commentaire, auteur_commentaire, article_id} = req.body
+  commentaireModel.addCommentaire({title_commentaire, detail_commentaire, auteur_commentaire, article_id})
+  .then(result => res.json(result))
+  .catch(err => res.json(err))
+})
+
+app.get('/commentaire/:id', (req, res) => {
+  const {id} = req.params
+  commentaireModel.getCommentaire({id})
+  .then(result => res.json(result))
+  .catch(err => res.json(err))
+})
+app.get('/article/:id', (req, res) => {
+  const {id} = req.params
+  articleModel.getArticle({id})
+  .then(result => res.json(result))
+  .catch(err => res.json(err))
+})
+app.get('/home', (req, res) => {
+  articleModel.getArticleForHome()
+  .then(result => res.json(result))
+  .catch(err => res.json(err))
 })
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

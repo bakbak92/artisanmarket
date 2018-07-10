@@ -29,7 +29,12 @@ module.exports = {
     },
     deleteArticle({id}){
         return db.connectQuery(`DELETE FROM articles WHERE id = ${id}`)
+    },
+    getArticle({id}){
+        return db.connectQuery(`SELECT * FROM articles WHERE id = ${id}`)
+    },
+    getArticleForHome(){
+        return db.connectQuery('SELECT * FROM articles LIMIT 3')
     }
-    
 
 }

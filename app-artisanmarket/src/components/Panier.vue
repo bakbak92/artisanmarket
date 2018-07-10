@@ -13,15 +13,15 @@
                                     <div class="headline">{{article.nom_article}}</div>
                                     <div>{{article.description_article}}</div>
                                     <div>{{article.prix_article}} €</div>
-                                    <v-btn class="btn-cancel">
+                                    <v-btn class="btn-cancel" @click="deleteArticle(article.date)">
                                         <v-icon left>cancel</v-icon>Supprimer l'article
                                     </v-btn>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="img-article">
                                     <v-card-media
                                     :src="article.image_article"
-                                    height="125px"
+                                    height="200px"
                                     contain
                                     ></v-card-media>
                                 </div>
@@ -41,6 +41,9 @@
             <p>Total articles: {{total}}€</p>
             <p>Réduction: 0 €</p>
             <h3>total {{total}} €</h3>
+            <v-btn class="commande">
+              PASSER COMMANDE
+            </v-btn>
         </div>
         </div>
     </v-container>
@@ -62,6 +65,11 @@ export default {
         total() {
             return this.$store.getters.totalPanier
         }
+    },
+    methods:{
+      deleteArticle(article){
+            this.$store.dispatch('deleteArticlePanier', article)
+        },
     }
 }
 </script>
@@ -70,6 +78,10 @@ export default {
     background-color: #FFB6B9 !important;
     color: white;
 }
+.commande{
+  margin: 6px 0;
+  width: 100%;
+}
 .v-card {
     margin-top: 2rem;
 }
@@ -77,17 +89,33 @@ export default {
     width: 60%;
     float: left;
     margin-bottom: 2rem;
+    @media screen and (max-width: 550px) {
+      width: 100%;
+    }
     .info-article{
         float: left;
+        @media screen and (max-width: 550px) {
+           width: 100%;
+        }
     }
-    .v.btn{
-        margin: 6px 0;
+    .img-article{
+      @media screen and (max-width: 550px) {
+           width: 100%;
+           overflow: hidden;
+        }
     }
 }
+.v-btn.btn-cancel{
+        margin: 6px 0!important;
+        width: 100%;
+    }
 .total{
     width: 40%;
     float: left;
     padding: 2rem;
+    @media screen and (max-width: 550px) {
+      width: 100%;
+    }
 }
 </style>
 

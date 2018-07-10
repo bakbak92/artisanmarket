@@ -31,7 +31,8 @@ export const store = new Vuex.Store({
                 quantité: 1
             }*/
         ],
-        articlesPanier: []
+        articlesPanier: [],
+        article: {}
     },
     mutations: {
         getArticles(state, payload){
@@ -57,11 +58,21 @@ export const store = new Vuex.Store({
             console.log(newArticles)
             state.articles = newArticles
         },
+        deleteArticlePanier(state, payload){
+          const newArticles = state.articlesPanier.filter((article) => {
+              return article.date !== payload
+          })
+          console.log(newArticles)
+          state.articlesPanier = newArticles
+      },
         editArticle(state, payload) {
             state.articles
         },
         addArticle(state, payload){
             state.articles.push(payload)
+        },
+        getArticle(state, payload){
+          state.article = payload
         }
 
     },
@@ -109,12 +120,16 @@ export const store = new Vuex.Store({
             axios.delete(`http://localhost:3000/deletearticle/${payload}`)
             .then((response) => {
                 console.log(response.data)
-                context.commit('deleteArticle', payload)
+                context.commit('deleteArticlePanier', payload)
             })
             .catch((err) => {
                 console.log(err)
             })
         },
+        deleteArticlePanier(context, payload){
+          console.log(payload + 'sah')
+          context.commit('deleteArticlePanier', payload)
+      },
         addArticle(context, payload) {
             axios.post('http://localhost:3000/article', payload)
             .then((response => {
@@ -124,13 +139,21 @@ export const store = new Vuex.Store({
             .catch((err) => {
                 console.log(err)
             })
+        },
+        getArticle(context, payload) {
+          console.log(payload)
+          context.commit('getArticle',payload)
         }
+
     },
     getters: {
         articles(state) {
             return state.articles.map(article => {
                 return article
             })
+        },
+        articleHome(state){
+          return state.articles.slice(0, 3)
         },
         articlesPanier(state) {
             return state.articlesPanier.map(article => {
@@ -147,11 +170,12 @@ export const store = new Vuex.Store({
             )
         },
         article(state) {
-            return (articleId) => {
+            return state.article
+            /*return (articleId) => {
                 return state.articles.find((article) => {
                   return article.id === articleId
                 })
-              }
+              }*/
         }
     }
 })

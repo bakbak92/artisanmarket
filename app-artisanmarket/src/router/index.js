@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Article from '@/components/Article'
+import Articles from '@/components/Articles'
 import Profil from '@/components/Profil'
 import Panier from '@/components/Panier'
 import Admin from '@/components/Admin'
-
+import Article from '@/components/Article'
 Vue.use(Router)
 
 export default new Router({
@@ -16,9 +16,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/Article',
-      name: 'Article',
-      component: Article
+      path: '/Articles',
+      name: 'Articles',
+      component: Articles
     },
     {
       path: '/Panier',
@@ -34,6 +34,12 @@ export default new Router({
       path: '/Admin',
       name: 'Admin',
       component: Admin
+    },
+    {
+      path: '/Article/:id',
+      name: 'Article',
+      props: true,
+      component: Article
     }
 
   ]

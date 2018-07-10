@@ -1,42 +1,109 @@
 <template>
-    <v-container>
-        <h2 @click="getArticles">Articles</h2>
-        <div>
-            <div class="articles" v-for="article in articles" :key="article.id">
-                <v-card>
-                    <v-card-media
-                    :src="article.image_article"
-                    height="200px"
-                    ></v-card-media>
+  <v-container>
+    <v-card>
+        <v-card-media
+          class="white--text"
+          height="500px"
+          :src="article.image_article"
+        >
+        </v-card-media>
+        <v-card-title>
+          <div>
+            <h3>{{article.nom_article}}</h3><br>
+            <span>{{article.description_article}}</span><br>
+            <span>{{article.prix_article}} €</span>
+          </div>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn class="btn" @click="addArticle(article)">
+            Ajouter au panier
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions>
+          Avis(5)
+          <v-spacer></v-spacer>
+          <v-btn icon>
+            <v-icon @click="show = !show">{{ show ? 'remove' : 'add' }}</v-icon>
+          </v-btn>
+        </v-card-actions>
 
-                    <v-card-title primary-title>
-                    <div>
-                        <h3 class="headline mb-0">{{article.nom_article}}</h3>
-                        <div>{{article.description_article}}</div>
-                        <span class="grey--text">{{article.prix_article}} €</span>
-                    </div>
-                    </v-card-title>
+        <v-slide-y-transition>
+          <v-card v-show="show">
+            <v-list two-line>
+              <v-btn @click="com = true">
+                Rediger un commentaire
+              </v-btn>
+              <div>
+                <v-text-field>
 
-                    <v-card-actions>
-                    <v-btn flat @click="addArticle(article)">Ajouter aux panier</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </div>
-        </div>
-    </v-container>
+                </v-text-field>
+              </div>
+              <template v-for="(commentaire, index) in commentaires">
+                <v-list-tile :key="index" avatar ripple>
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{ commentaire.auteur_commentaire }}</v-list-tile-title>
+                    <v-list-tile-sub-title class="text--primary">{{ commentaire.title_commentaire }}</v-list-tile-sub-title>
+                    <v-list-tile-sub-title>{{ commentaire.detail_commentaire }}</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>
+                    <v-list-tile-action-text>12h</v-list-tile-action-text>
+                  </v-list-tile-action>
+                </v-list-tile>
+                <v-divider v-if="index + 1 < commentaires.length" :key="`divider-${index}`"></v-divider>
+              </template>
+            </v-list>
+          </v-card>
+        </v-slide-y-transition>
+      </v-card>
+  </v-container>
 </template>
 <script>
+import axios from 'axios'
 export default {
-    created(){
-        this.$store.dispatch('getArticles')
-    },
-    computed: {
-        articles(){
-            return this.$store.getters.articles
-        }
-    },
-    methods: {
-        addArticle(article) {
+  props: ['id'],
+  data(){
+    return {
+      show: false,
+       commentaires: [
+          { date: '15 min',title_commentaire: 'Brunch this weekend?', auteur_commantaire: 'Ali Connors', detail_commantaire: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" },
+          { date: '2 hr',title_commentaire: 'Summer BBQ', auteur_commantaire: 'me, Scrott, Jennifer', detail_commantaire: "Wish I could come, but I'm out of town this weekend." },
+          { date: '6 hr',title_commentaire: 'Oui oui', auteur_commantaire: 'Sandra Adams', detail_commantaire: 'Do you have Paris recommendations? Have you ever been?' },
+          { date: '12 hr',title_commentaire: 'Birthday gift', auteur_commantaire: 'Trevor Hansen', detail_commantaire: 'Have any ideas about what we should get Heidi for her birthday?' },
+          { date: '18hr',title_commentaire: 'Recipe to try', auteur_commantaire: 'Britta Holt', detail_commantaire: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.' }
+
+        ],
+        article: {}
+    }
+  },
+  created(){
+    axios.get(`http://localhost:3000/commentaire/${this.id}`)
+    .then((response) => {
+      console.log(response.data)
+      this.commentaires = response.data
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+    axios.get(`http://localhost:3000/article/${this.id}`)
+    .then((response) => {
+      console.log(response.data)
+      response.data.map((article) => {
+        this.article = article
+      })
+
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  },
+  computed: {
+    /*article() {
+      return this.$store.getters.article
+    }*/
+  },
+  methods: {
+    addArticle(article) {
             const product = {
                 id: article.id,
                 nom_article: article.nom_article,
@@ -46,36 +113,24 @@ export default {
             }
             console.log(product)
             this.$store.dispatch('addArticlesPanier', product)
-        },
-        getArticles(){
-            this.$store.dispatch('getArticles')
-        }
+    },
+    getCommentaire(){
+          axios.get(`http://localhost:3000/commentaire/${this.id}`)
+          .then((response) => {
+            console.log(response.data)
+            this.commentaires = response.data
+          })
+          .catch((err) => {
+            console.log(err)
+          })
     }
+  }
 }
 </script>
-
-<style lang="scss" scoped>
-.v-card{
-    margin-right: 2rem;
-    @media screen and (max-width: 550px) {
-        margin-right: 0;
-    }
-    .v-card__actions{
-        padding: 0;
-    }
-}
-.v-btn{
+<style lang="scss">
+.v-btn.btn{
     background-color: #FFB6B9!important;
-    color: white;
+    color: white!important;
     width: 100%;
-}
-.articles{
-    width: 33.33%;
-    float: left;
-    margin: 1rem 0;
-    @media screen and (max-width: 550px) {
-        width: 100%;
-        margin-bottom: 1.5rem;
-    }
 }
 </style>

@@ -8,7 +8,7 @@
         <v-carousel-item
           v-for="(item,i) in articles"
           :key="i"
-          :src="item.img"
+          :src="item"
           height="400px"
         ></v-carousel-item>
       </v-carousel>
@@ -16,11 +16,15 @@
 </template>
 <script>
 export default {
-  computed: {
-    articles() {
-      return this.$store.getters.articles
+  data(){
+    return {
+      articles: [
+        "https://images.unsplash.com/photo-1494281232141-90a40b0b06c9?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=9d66710bd126434e4c50af9b1dbc55d5&auto=format&fit=crop&w=750&q=80",
+        "https://images.unsplash.com/photo-1507904862046-46e6e3661508?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0efe856edefb24e3274b92af1f9ad661&auto=format&fit=crop&w=750&q=80",
+        "https://images.unsplash.com/photo-1524485566422-75cf178c59d3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=41ed2cfdd37cc5f6ab09950036780451&auto=format&fit=crop&w=750&q=80"
+      ]
     }
-  }
+  },
 }
 </script>
 

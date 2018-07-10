@@ -39,7 +39,7 @@
     </v-toolbar>
     <main>
       <router-view>
-        
+
       </router-view>
     </main>
      <v-footer
@@ -69,7 +69,7 @@ export default {
     return {
       sideNav: false,
       menuItems: [
-        {icon: 'shopping_basket', title: 'Article', link: '/Article'},
+        {icon: 'shopping_basket', title: 'Article', link: '/Articles'},
         {icon: 'person', title: 'Profil', link: '/Profil'}
       ],
       icons: [
@@ -142,7 +142,7 @@ a.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link{
 .v-dialog{
   -webkit-box-shadow: 0 0 0 0;
   box-shadow: 0 0 0 0;
-}  
+}
 .v-overlay:before {
     background-color: #2121218c;
 }
