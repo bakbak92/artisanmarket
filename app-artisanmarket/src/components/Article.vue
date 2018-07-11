@@ -30,13 +30,31 @@
         <v-slide-y-transition>
           <v-card v-show="show">
             <v-list two-line>
-              <v-btn @click="com = true">
+              <v-btn @click="formCommentaire = true">
                 Rediger un commentaire
               </v-btn>
-              <div>
-                <v-text-field>
-
-                </v-text-field>
+              <div v-show="formCommentaire">
+                <v-card>
+                  <form>
+                    <v-text-field
+                      v-model="newCommentaire.auteur_commentaire"
+                      label="Nom auteur du commentaire"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="newCommentaire.title_commentaire"
+                      label="Titre du commentaire"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="newCommentaire.detail_commentaire"
+                      label="Detail du commentaire"
+                      required
+                    ></v-text-field>
+                    <v-btn @click="addCommentaire">submit</v-btn>
+                    <v-btn @click="formCommentaire = false">clear</v-btn>
+                  </form>
+                </v-card>
               </div>
               <template v-for="(commentaire, index) in commentaires">
                 <v-list-tile :key="index" avatar ripple>
@@ -72,7 +90,14 @@ export default {
           { date: '18hr',title_commentaire: 'Recipe to try', auteur_commantaire: 'Britta Holt', detail_commantaire: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.' }
 
         ],
-        article: {}
+        article: {},
+        formCommentaire: false,
+        newCommentaire: {
+          title_commentaire: '',
+          detail_commantaire: '',
+          auteur_commantaire: '',
+          article_id: this.id
+        }
     }
   },
   created(){
@@ -80,6 +105,7 @@ export default {
     .then((response) => {
       console.log(response.data)
       this.commentaires = response.data
+      this.formCommentaire = false
     })
     .catch((err) => {
       console.log(err)
@@ -123,6 +149,20 @@ export default {
           .catch((err) => {
             console.log(err)
           })
+    },
+    addCommentaire(){
+      axios.post('http://localhost:3000/addcommentaire', {
+        title_commentaire: this.newCommentaire.title_commentaire,
+        detail_commentaire: this.newCommentaire.detail_commentaire,
+        auteur_commentaire: this.newCommentaire.auteur_commentaire,
+        article_id: this.newCommentaire.article_id
+        })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   }
 }
