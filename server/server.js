@@ -31,8 +31,8 @@ app.get('/', function (req, res) {
   res.send('Hello World!')
 })
 
-app.post('/signinartisan', function(req, res) {
-  const {email_artisan, password_artisan} = req.body
+app.get('/signinartisan/:email_artisan/:password_artisan', function(req, res) {
+  const {email_artisan, password_artisan} = req.params
   artisanModel.signInArtisan({email_artisan, password_artisan})
   .then(result => res.json(result))
   .catch(err => res.json(err))

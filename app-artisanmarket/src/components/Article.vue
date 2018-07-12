@@ -161,7 +161,7 @@ export default {
 </script>
 <style lang="scss">
 .v-btn.btn{
-    background-color: #99e1e5!important;
+    background-color: #7c73e6!important;
     color: white!important;
     width: 100%;
 }

@@ -35,7 +35,12 @@ export const store = new Vuex.Store({
         article: {},
         commentaires: [
 
-        ]
+        ],
+        artisan: {
+          email: '',
+          mdp: '',
+          connecter: false
+        }
     },
     mutations: {
         getArticles(state, payload){
@@ -82,6 +87,12 @@ export const store = new Vuex.Store({
         },
         addCommentaire(state, payload){
           state.commentaires.push(payload)
+        },
+        signInArtisan(state, payload){
+          state.artisan.email = payload.email
+          state.artisan.mdp = payload.mdp
+          state.artisan.connecter = true
+          console.log(state.artisan.email + ' mutation')
         }
 
     },
@@ -170,6 +181,11 @@ export const store = new Vuex.Store({
               console.log(err)
             })
           context.commit('addCommentaire', payload)
+        },
+        signInArtisan(context, payload) {
+          localStorage.setItem('email', payload.email)
+          context.commit('signInArtisan', {email: payload.email, mdp: payload.mdp})
+          console.log(payload.email + 'action')
         }
 
     },
@@ -206,6 +222,9 @@ export const store = new Vuex.Store({
         },
         commentaires(state){
           return state.commentaires
+        },
+        artisan(state){
+          return state.artisan
         }
     }
 })

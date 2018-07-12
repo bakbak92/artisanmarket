@@ -20,7 +20,7 @@ module.exports = {
             )`)
     },
     signInArtisan({email_artisan, password_artisan}){
-        return db.connectQuery(`SELECT id FROM artisans 
+        return db.connectQuery(`SELECT * FROM artisans 
         WHERE email_artisan = '${email_artisan}' AND password_artisan = '${password_artisan}'`)
     }
 

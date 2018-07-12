@@ -75,13 +75,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .btn-cancel{
-    background-color: #99e1e5 !important;
+    background-color: #7c73e6 !important;
     color: white;
 }
 .commande{
   margin: 6px 0;
   width: 100%;
   background-color: #7c73e6!important;
+  //background-color: #ff8400!important;
   color: white;
 }
 .v-card {

@@ -30,10 +30,15 @@
           {{menu.title}}
         </v-btn>
       </v-toolbar-items>
-      <v-toolbar-items class="hidden-xs-only">
+      <v-toolbar-items class="hidden-xs-only"  v-if="artisanConnecter.connecter !== true">
         <v-btn flat router to="/Panier">
           <v-icon left>shopping_cart</v-icon> <span class="nbPanier">{{nbArticlePanier}}</span>
           Panier
+        </v-btn>
+      </v-toolbar-items>
+      <v-toolbar-items class="hidden-xs-only"  v-else>
+        <v-btn router to="/" flat @click="artisanConnecter.connecter = true">
+          <v-icon left>shopping_cart</v-icon> DECONNECTION
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -55,7 +60,7 @@
         <strong class="subheading ">La market space des artisans</strong>
       </v-card-title>
 
-      <v-card-actions class="grey darken-3 justify-center">
+      <v-card-actions class="grey darken-3 justify-center subfooter">
         &copy;2018 — <strong>Artisan Market</strong>
       </v-card-actions>
     </v-card>
@@ -68,10 +73,6 @@ export default {
   data () {
     return {
       sideNav: false,
-      menuItems: [
-        {icon: 'shopping_basket', title: 'Article', link: '/Articles'},
-        {icon: 'person', title: 'Profil', link: '/Profil'}
-      ],
       icons: [
         'fab fa-facebook',
         'fab fa-twitter',
@@ -84,6 +85,22 @@ export default {
   computed: {
     nbArticlePanier() {
       return this.$store.getters.nbArticlesPanier
+    },
+    menuItems(){
+      let menuItems = [
+        {icon: 'shopping_basket', title: 'Article', link: '/Articles'},
+        {icon: 'person', title: 'Mon compte', link: '/Profil'}
+      ]
+      if(this.artisanConnecter.connecter){
+        menuItems = [
+          {icon: 'shopping_basket', title: 'Article', link: '/Articles'},
+          {icon: 'person', title: 'Admin', link: '/Admin'},
+        ]
+      }
+      return menuItems
+    },
+    artisanConnecter(){
+      return this.$store.getters.artisan
     }
   },
   name: 'App'
@@ -94,7 +111,10 @@ export default {
   background-color: white;
 }
 .teal{
-  background-color:#a4d8f7!important;
+  background-color:#bbbbbb!important;
+}
+.subfooter{
+  background-color: #bbbbbb!important;
 }
 main{
   background: white;
@@ -102,28 +122,34 @@ main{
 }
 .nbPanier{
   position: relative;
-  right: 1rem;;
+  right: 1rem;
 }
 .v-toolbar {
-  background-color: white!important;
+  background-color: #99e1e5!important;
    -webkit-box-shadow: 0 0 0 0;
   box-shadow: 0 0 0 0;
+}
+.v-toolbar__title {
+    color: white;
 }
 .v-btn:not(.v-btn--depressed){
   -webkit-box-shadow: 0 0 0 0;
   box-shadow: 0 0 0 0;
 }
+a.v-btn.v-btn--flat.v-btn--router {
+    color: white;
+}
 .v-btn{
   &.v-btn--active{
-    color: #99e1e5;
+    color: white;
     background: white;
   }
   &:hover{
     background: white;
-    color: #99e1e5;
+    color: white;
   }
   &:active{
-    color:#99e1e5;
+    color:white;
     background: white;
   }
 }
@@ -132,7 +158,7 @@ main{
 }
 a.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link{
   //color:#FFB6B9!important;
-  color: #99e1e5!important;
+  color: white!important;
 }
 .v-dialog.v-dialog--active{
     max-height: 100%!important;

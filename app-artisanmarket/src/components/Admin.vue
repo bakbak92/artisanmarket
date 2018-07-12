@@ -112,6 +112,9 @@ export default {
             ajoutArticle: false
         }
     },
+    created(){
+      this.$store.dispatch('getArticles')
+    },
     computed: {
         articles() {
             return this.$store.getters.articles
