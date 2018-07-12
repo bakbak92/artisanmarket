@@ -20,7 +20,7 @@
           </v-btn>
         </v-card-actions>
         <v-card-actions>
-          Avis(5)
+          Avis({{coms.length}})
           <v-spacer></v-spacer>
           <v-btn icon>
             <v-icon @click="show = !show">{{ show ? 'remove' : 'add' }}</v-icon>
@@ -33,8 +33,8 @@
               <v-btn @click="formCommentaire = true">
                 Rediger un commentaire
               </v-btn>
-              <div v-show="formCommentaire">
-                <v-card>
+              <v-container v-show="formCommentaire">
+                <v-card class="form-avis">
                   <form>
                     <v-text-field
                       v-model="newCommentaire.auteur_commentaire"
@@ -55,8 +55,8 @@
                     <v-btn @click="formCommentaire = false">clear</v-btn>
                   </form>
                 </v-card>
-              </div>
-              <template v-for="(commentaire, index) in commentaires">
+              </v-container>
+              <template v-for="(commentaire, index) in coms">
                 <v-list-tile :key="index" avatar ripple>
                   <v-list-tile-content>
                     <v-list-tile-title>{{ commentaire.auteur_commentaire }}</v-list-tile-title>
@@ -104,6 +104,7 @@ export default {
     axios.get(`http://localhost:3000/commentaire/${this.id}`)
     .then((response) => {
       console.log(response.data)
+      this.$store.dispatch('getCommentaires', response.data)
       this.commentaires = response.data
       this.formCommentaire = false
     })
@@ -124,9 +125,9 @@ export default {
     })
   },
   computed: {
-    /*article() {
-      return this.$store.getters.article
-    }*/
+    coms(){
+      return this.$store.getters.commentaires
+    }
   },
   methods: {
     addArticle(article) {
@@ -140,18 +141,9 @@ export default {
             console.log(product)
             this.$store.dispatch('addArticlesPanier', product)
     },
-    getCommentaire(){
-          axios.get(`http://localhost:3000/commentaire/${this.id}`)
-          .then((response) => {
-            console.log(response.data)
-            this.commentaires = response.data
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-    },
     addCommentaire(){
-      axios.post('http://localhost:3000/addcommentaire', {
+      this.$store.dispatch('addCommentaire', this.newCommentaire)
+      /*axios.post('http://localhost:3000/addcommentaire', {
         title_commentaire: this.newCommentaire.title_commentaire,
         detail_commentaire: this.newCommentaire.detail_commentaire,
         auteur_commentaire: this.newCommentaire.auteur_commentaire,
@@ -162,15 +154,22 @@ export default {
       })
       .catch((err) => {
         console.log(err)
-      })
+      })*/
     }
   }
 }
 </script>
 <style lang="scss">
 .v-btn.btn{
-    background-color: #FFB6B9!important;
+    background-color: #99e1e5!important;
     color: white!important;
     width: 100%;
+}
+.form-avis{
+  max-width: 500px;
+  padding: 2rem;
+  .v-input.v-text-field {
+    margin-bottom: 2rem;
+  }
 }
 </style>

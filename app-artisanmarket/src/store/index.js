@@ -32,7 +32,10 @@ export const store = new Vuex.Store({
             }*/
         ],
         articlesPanier: [],
-        article: {}
+        article: {},
+        commentaires: [
+
+        ]
     },
     mutations: {
         getArticles(state, payload){
@@ -73,6 +76,12 @@ export const store = new Vuex.Store({
         },
         getArticle(state, payload){
           state.article = payload
+        },
+        getCommentaires(state, payload){
+          state.commentaires = payload
+        },
+        addCommentaire(state, payload){
+          state.commentaires.push(payload)
         }
 
     },
@@ -143,6 +152,24 @@ export const store = new Vuex.Store({
         getArticle(context, payload) {
           console.log(payload)
           context.commit('getArticle',payload)
+        },
+        getCommentaires(context, payload){
+          context.commit('getCommentaires', payload)
+        },
+        addCommentaire(context, payload){
+          axios.post('http://localhost:3000/addcommentaire', {
+            title_commentaire: payload.title_commentaire,
+            detail_commentaire: payload.detail_commentaire,
+            auteur_commentaire: payload.auteur_commentaire,
+            article_id: payload.article_id
+            })
+            .then((response) => {
+              console.log(response)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+          context.commit('addCommentaire', payload)
         }
 
     },
@@ -176,6 +203,9 @@ export const store = new Vuex.Store({
                   return article.id === articleId
                 })
               }*/
+        },
+        commentaires(state){
+          return state.commentaires
         }
     }
 })

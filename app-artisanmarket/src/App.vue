@@ -115,15 +115,15 @@ main{
 }
 .v-btn{
   &.v-btn--active{
-    color: #FFB6B9;
+    color: #99e1e5;
     background: white;
   }
   &:hover{
     background: white;
-    color: #FFB6B9;
+    color: #99e1e5;
   }
   &:active{
-    color:#FFB6B9;
+    color:#99e1e5;
     background: white;
   }
 }
@@ -131,7 +131,8 @@ main{
   background-color: white;
 }
 a.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link{
-  color:#FFB6B9!important;
+  //color:#FFB6B9!important;
+  color: #99e1e5!important;
 }
 .v-dialog.v-dialog--active{
     max-height: 100%!important;

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-      <h1 style="color: #FFB6B9">Artisan Market</h1>
+      <h1 style="color: #99e1e5">Artisan Market</h1>
       <p>La market space des artisans</p>
       <v-carousel delimiter-icon="fiber_manual_record"
     prev-icon="chevron_left"
