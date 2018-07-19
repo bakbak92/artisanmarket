@@ -18,4 +18,21 @@ module.exports = {
             '${image_article}'
         )`)
       },
+    signInclient(){
+        return db.connectQuery(`INSERT INTO
+            client(
+                nom_client,
+                prenom_client,
+                email_client,
+                password_client,
+                photo_client
+            ) VALUES (
+                '${nom_client}',
+                '${prenom_client}',
+                '${email_client}',
+                '${password_client}',
+                '${photo_client}'
+            )
+        `)
+    }
 }
