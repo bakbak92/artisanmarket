@@ -19,14 +19,7 @@ app.post('/signupartisan', function(req, res) {
   const {nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan} = req.body
   artisanModel.signUpArtisan({nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan})
   .then(result => res.json(result))
-  .then(err => res.json(err))
-})
-
-app.post('/signinclient', function(req, res) {
-  const {nom_client, prenom_client, email_client, password_client, photo_client} = req.body
-  clientModel.signInclient({nom_client, prenom_client, email_client, password_client, photo_client})
-  .then(result => res.json(result))
-  .then(err => res.json(err))
+  .catch(err => res.json(err))
 })
 
 app.post('/article', function(req, res) {

@@ -1,6 +1,6 @@
 <template>
     <v-container>
-      <div v-show="notReady">
+      <div v-show="connecté">
         <v-form class="form" v-show="connection">
           <h2>
             Connecte toi
@@ -74,20 +74,13 @@
               ></v-text-field>
           </div>
           <div class="form-input">
-              <v-switch
-              label="Etes vous un artisan ?"
-              v-model="artisan"
-              color="secondary"
-            ></v-switch>
-          </div>
-          <div class="form-input">
             <v-btn :disabled="!signInValid" @click="signup">
               S'INSCRIRE
             </v-btn>
           </div>
         </v-form>
       </div>
-      <div v-show="!notReady">
+      <div v-show="!connecté">
         Vous etes bien connecter consulter vos article
       </div>
     </v-container>
@@ -97,8 +90,6 @@ export default {
   data(){
     return {
       connection: true,
-      switch1: true,
-      artisan: false,
       artisanSignin: {
         email: '',
         mdp: ''
@@ -109,7 +100,8 @@ export default {
         email: '',
         mdp: ''
       },
-      notReady: true,
+      connecté: true,
+      inscri: true,
       rules: {
         nom: [val => (val || '').length > 0 || 'Entre ton nom'],
         prenom: [val => (val || '').length > 0 || 'Entre ton prenom'],
@@ -140,12 +132,11 @@ export default {
       axios.get(`http://localhost:3000/signinartisan/${this.artisanSignin.email}/${this.artisanSignin.mdp}`)
           .then((response) => {
 
-            if(response.data[0].email_artisan !== this.arti.email && response.data[0].password !== this.arti.mp)
+            if(response.data[0].email_artisan !== this.artisanSignin.email && response.data[0].password !== this.artisanSignin.mdp)
             this.arti = response.data[0]
-            this.$store.dispatch('signInArtisan', this.arti)
-            console.log(this.arti)
+            this.$store.dispatch('signInArtisan', this.artisanSignin)
             console.log('connecter' + response.data[0].email_artisan)
-            this.notReady = false
+            this.connecté = false
             /*this.arti.email = ''
             this.arti.mdp = ''*/
           })
@@ -161,36 +152,21 @@ export default {
       this.arti.mdp = ''*/
     },
     signup(){
-      if(this.artisan === true){
-        console.log(`Artisan inscri ${this.userSignUp.nom} ${this.userSignUp.prenom} ${this.userSignUp.email} ${this.userSignUp.mdp}`)
-        axios.post('http://localhost:3000/signupartisan', {
-          nom_artisan: this.userSignUp.nom,
-          prenom_artisan: this.userSignUp.prenom,
-          description_artisan: this.userSignUp.description,
-          email_artisan: this.userSignUp.email,
-          password_artisan: this.userSignUp.mdp,
-          photo_artisan: this.userSignUp.photo_artisan,
+      axios.post('http://localhost:3000/signupartisan', {
+        nom_artisan: this.userSignUp.nom,
+        prenom_artisan: this.userSignUp.prenom,
+        description_artisan: this.userSignUp.description,
+        email_artisan: this.userSignUp.email,
+        password_artisan: this.userSignUp.mdp,
+        photo_artisan: this.userSignUp.photo_artisan,
 
-        })
-        .then((response) => {
-          console.log(response.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      }
-      else{
-        console.log(`Client inscri ${this.userSignUp.nom} ${this.userSignUp.prenom} ${this.userSignUp.email} ${this.userSignUp.mdp}`)
-        axios.post('http://localhost:3000/signupartisan', {
-          
-        })
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      }
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   }
 }
