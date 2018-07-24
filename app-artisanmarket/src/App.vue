@@ -2,11 +2,23 @@
   <v-app>
     <v-navigation-drawer v-model="sideNav" fixed>
       <v-list dense>
-        <v-list-tile v-for="menu in menuItems" router :to="menu.link" :key="menu.title">
+        <!--<v-list-tile v-for="menu in menuItems" router :to="menu.link" :key="menu.title">
           <v-list-tile-action>
             <v-icon>{{menu.icon}}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>{{menu.title}}</v-list-tile-content>
+        </v-list-tile>-->
+        <v-list-tile router to="/Articles">
+          <v-list-tile-action>
+            <v-icon>shopping_basket</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Articles</v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile>
+          <v-list-tile-action>
+            <v-icon>person</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Profil</v-list-tile-content>
         </v-list-tile>
         <v-list-tile router to="/Panier">
           <v-list-tile-action>
@@ -25,20 +37,48 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat v-for="menu in menuItems" router :to="menu.link" :key="menu.title">
+        <!--<v-btn flat v-for="menu in menuItems" router :to="menu.link" :key="menu.title">
           <v-icon left>{{menu.icon}}</v-icon>
           {{menu.title}}
+        </v-btn>-->
+        <v-btn flat router to="/Articles">
+          <v-icon left>shopping_basket</v-icon>
+          Articles
         </v-btn>
-      </v-toolbar-items>
-      <v-toolbar-items class="hidden-xs-only"  v-if="artisanConnecter.connecter !== true">
+        <v-btn v-if="artisanConnecter.connecter !== true" flat router to="/Sign">
+          <v-icon left>person</v-icon>
+          Se connecter / S'inscrire
+        </v-btn>
+        <v-btn v-else flat>
+          <v-icon left>person</v-icon>
+          {artisanConnecter.name}
+        </v-btn>
+        <v-menu offset-y>
+          <v-btn
+            slot="activator"
+            flat
+          >
+          <v-icon left>person</v-icon>
+            Profil
+          </v-btn>
+          <v-list>
+            <v-list-tile
+              router to="/Profil"
+              class="sous-menu"
+            >
+              <v-list-tile-title class="sub-menu">Mon profil</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile
+              router to="/Admin"
+              class="sous-menu"
+            >
+              <v-list-tile-title class="sub-menu">Mes articles</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
         <v-btn flat router to="/Panier">
           <v-icon left>shopping_cart</v-icon> <span class="nbPanier">{{nbArticlePanier}}</span>
           Panier
-        </v-btn>
-      </v-toolbar-items>
-      <v-toolbar-items class="hidden-xs-only"  v-else>
-        <v-btn router to="/" flat @click="artisanConnecter.connecter = true">
-          <v-icon left>shopping_cart</v-icon> DECONNECTION
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -79,6 +119,12 @@ export default {
         'fab fa-google-plus',
         'fab fa-linkedin',
         'fab fa-instagram'
+      ],
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' }
       ]
     }
   },
@@ -87,17 +133,17 @@ export default {
       return this.$store.getters.nbArticlesPanier
     },
     menuItems(){
-      let menuItems = [
+      /*let menuItems = [
         {icon: 'shopping_basket', title: 'Article', link: '/Articles'},
-        {icon: 'person', title: 'Mon compte', link: '/Profil'}
+        {icon: 'person', title: "Se connecter / s'incrire", link: '/Profil'}
       ]
       if(this.artisanConnecter.connecter){
         menuItems = [
           {icon: 'shopping_basket', title: 'Article', link: '/Articles'},
-          {icon: 'person', title: 'Admin', link: '/Admin'},
+          {icon: 'person', title: 'Mon profil', link: '/Admin'},
         ]
       }
-      return menuItems
+      return menuItems*/
     },
     artisanConnecter(){
       return this.$store.getters.artisan
@@ -125,9 +171,18 @@ main{
   right: 1rem;
 }
 .v-toolbar {
-  background-color: #99e1e5!important;
+  //background-color: #99e1e5!important;
+  background-color: #eeeeee!important;
    -webkit-box-shadow: 0 0 0 0;
   box-shadow: 0 0 0 0;
+  .v-btn{
+    color: #424242!important;
+  }
+  .v-toolbar__title{
+    color: #424242;
+  }
+}
+.sous-menu > a{
 }
 .v-toolbar__title {
     color: white;
@@ -153,12 +208,23 @@ a.v-btn.v-btn--flat.v-btn--router {
     background: white;
   }
 }
+.v-menu{
+  .v-btn{
+    color: white;
+  }
+  .v-icon{
+    color: white;
+  }
+}
 .v-btn--active:before, .v-btn:focus:before, .v-btn:hover:before{
   background-color: white;
 }
 a.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link{
   //color:#FFB6B9!important;
-  color: white!important;
+  color: white;
+}
+.sous-menu >a.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link{
+  color: #7c73e6!important;
 }
 .v-dialog.v-dialog--active{
     max-height: 100%!important;

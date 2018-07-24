@@ -2,10 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Articles from '@/components/Articles'
-import Profil from '@/components/Profil'
+import Sign from '@/components/Sign'
 import Panier from '@/components/Panier'
 import Admin from '@/components/Admin'
 import Article from '@/components/Article'
+import Profil from '@/components/Profil'
 Vue.use(Router)
 
 export default new Router({
@@ -40,6 +41,11 @@ export default new Router({
       name: 'Article',
       props: true,
       component: Article
+    },
+    {
+      path: '/Sign',
+      name: 'Sign',
+      component: Sign
     }
 
   ]

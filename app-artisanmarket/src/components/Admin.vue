@@ -167,8 +167,14 @@ export default {
         .content-modal{
             padding: 1rem;
         }
+        i.v-icon.v-icon--link.material-icons {
+          color: #424242;
+      }
     }
     .v-form{
         padding: 1rem;
+    }
+    button.v-btn.primary {
+      background-color: #7c73e6!important;
     }
 </style>

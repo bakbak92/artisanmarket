@@ -140,7 +140,7 @@ export const store = new Vuex.Store({
             axios.delete(`http://localhost:3000/deletearticle/${payload}`)
             .then((response) => {
                 console.log(response.data)
-                context.commit('deleteArticlePanier', payload)
+                context.commit('deleteArticle', payload)
             })
             .catch((err) => {
                 console.log(err)
