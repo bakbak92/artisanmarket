@@ -2,20 +2,29 @@ const db = require('./db.js')
 
 module.exports = {
     getArticles() {
-        return db.connectQuery('SELECT * from articles')
+        return db.connectQuery(`SELECT * from articles`)
     },
-    addArticle({nom_article, description_article, image_article, prix_article}) {
+    getArticlesByArtisan({id}) {
+        return db.connectQuery(`SELECT * from articles WHERE id_artisan = ${id}`)
+    },
+    addArticle({nom_article, description_article, image_article, prix_article, id_artisan}) {
         return db.connectQuery(`INSERT INTO
           articles(
             nom_article,
             description_article,
             image_article,
-            prix_article
+            prix_article,
+            id_artisan,
+            prenom_artisan,
+            photo_artisan
         ) VALUES(
             '${nom_article}',
             '${description_article}',
             '${image_article}',
-            '${prix_article}'
+            '${prix_article}',
+            '${id_artisan}',
+            '${prenom_artisan}',
+            '${photo_artisan}'
         )`)
     },
     updateArticle({id, nom_article, description_article, image_article, prix_article}) {

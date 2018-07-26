@@ -23,26 +23,44 @@ app.post('/signupartisan', function(req, res) {
 })
 
 app.post('/article', function(req, res) {
-  const {nom_article, description_article, image_article, prix_article} = req.body;
-  articleModel.addArticle({nom_article, description_article, image_article, prix_article})
+  const {nom_article, description_article, image_article, prix_article, id_artisan, prenom_artisan, photo_artisan} = req.body;
+  articleModel.addArticle({nom_article, description_article, image_article, prix_article, id_artisan, prenom_artisan, photo_artisan})
   .then(result => res.json(result))
   .catch(err => res.json(err))
 })
 app.get('/', function (req, res) {
   res.send('Hello World!')
 })
-
 app.get('/signinartisan/:email_artisan/:password_artisan', function(req, res) {
   const {email_artisan, password_artisan} = req.params
   artisanModel.signInArtisan({email_artisan, password_artisan})
   .then(result => res.json(result))
   .catch(err => res.json(err))
 })
-app.get('/articles', (req, res) => {
-    articleModel.getArticles()
+app.get('/artisan/:id_artisan', function(req, res) {
+  const {id_artisan} = req.params
+  artisanModel.getArtisan({id_artisan})
+  .then(result => res.json(result))
+  .catch(err => res.json(err))
+})
+app.put('/editartisan', function(req, res) {
+  const {id, nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan} = req.body
+  artisanModel.editArtisan({id, nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan})
+  .then(result => res.json(result))
+  .catch(err => res.json(err))
+
+})
+app.get('/articlesartisan/:id', (req, res) => {
+  const {id} = req.params
+    articleModel.getArticlesByArtisan({id})
       .then(result => res.json(result))
       .catch(err => res.json(err))
   });
+  app.get('/articles', (req, res) => {
+      articleModel.getArticles()
+        .then(result => res.json(result))
+        .catch(err => res.json(err))
+    });
 
 app.put('/updatearticle', (req, res) => {
   const {id, nom_article, description_article, image_article, prix_article} = req.body

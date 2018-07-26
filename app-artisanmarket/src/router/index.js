@@ -32,7 +32,8 @@ export default new Router({
       component: Profil
     },
     {
-      path: '/Admin',
+      path: '/Admin/:id',
+      props: true,
       name: 'Admin',
       component: Admin
     },

@@ -11,6 +11,12 @@
                     ></v-card-media>
 
                     <v-card-title primary-title>
+                    <div class="artisan">
+                      <div>
+                        <img :src="article.photo_artisan" alt="">
+                        <span>{{article.prenom_artisan}}</span>
+                      </div>
+                    </div>
                     <div>
                         <h3 class="headline mb-0">{{article.nom_article}}</h3>
                         <div>{{article.description_article}}</div>
@@ -89,6 +95,9 @@ export default {
     .v-card__actions{
         padding: 0;
     }
+    .v-card__title--primary {
+        padding-top: 0.5rem!important;
+    }
     .v-card__title.v-card__title--primary > div{
       width: 100%;
     }
@@ -127,5 +136,23 @@ export default {
 }
 .v-card__media{
   cursor: pointer!important;
+}
+.artisan{
+  position: relative;
+  div{
+    position: absolute;
+    right: 0;
+    top: -1.7rem;
+    img{
+      height: 30px;
+      width: 30px;
+      border-radius: 100%;
+      box-shadow: 0px 0px 2px 3px rgb(253, 253, 255);
+    }
+    span{
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
 }
 </style>

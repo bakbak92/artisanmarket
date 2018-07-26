@@ -49,11 +49,7 @@
           <v-icon left>person</v-icon>
           Se connecter / S'inscrire
         </v-btn>
-        <v-btn v-else flat>
-          <v-icon left>person</v-icon>
-          {artisanConnecter.name}
-        </v-btn>
-        <v-menu offset-y>
+        <v-menu v-else offset-y>
           <v-btn
             slot="activator"
             flat
@@ -69,7 +65,7 @@
               <v-list-tile-title class="sub-menu">Mon profil</v-list-tile-title>
             </v-list-tile>
             <v-list-tile
-              router to="/Admin"
+              @click="viewArticle(artisanConnecter.id)"
               class="sous-menu"
             >
               <v-list-tile-title class="sub-menu">Mes articles</v-list-tile-title>
@@ -132,6 +128,9 @@ export default {
     nbArticlePanier() {
       return this.$store.getters.nbArticlesPanier
     },
+    artisanConnecter(){
+      return this.$store.getters.artisan
+    },
     menuItems(){
       /*let menuItems = [
         {icon: 'shopping_basket', title: 'Article', link: '/Articles'},
@@ -147,6 +146,11 @@ export default {
     },
     artisanConnecter(){
       return this.$store.getters.artisan
+    }
+  },
+  methods:{
+    viewArticle(id){
+      this.$router.push(`/Admin/${id}`)
     }
   },
   name: 'App'

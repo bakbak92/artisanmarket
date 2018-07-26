@@ -39,15 +39,28 @@ export const store = new Vuex.Store({
         artisan: {
           email: '',
           mdp: '',
+          id: '',
+          name: '',
+          img: '',
+          description: '',
           connecter: false
-        }
+        },
+        articlesByArtisan: []
     },
     mutations: {
         getArticles(state, payload){
             state.articles = payload
         },
+        getArticlesByArtisan(state, payload){
+          let newArticles = payload
+          newArticles.map((article) => {
+            article.modeEdit = false
+          })
+          state.articlesByArtisan = newArticles
+        },
         addArticlesPanier (state, payload) {
             state.articlesPanier.push(payload)
+            state.articlesByArtisan.push(payload)
         },
         incrementItemQuantity(state, cartItem){
             cartItem.quantity++
@@ -63,8 +76,12 @@ export const store = new Vuex.Store({
             const newArticles = state.articles.filter((article) => {
                 return article.id !== payload
             })
+            const newArticlesByArtisan = state.articlesByArtisan.filter((article) => {
+              return article.id !== payload
+          })
             console.log(newArticles)
             state.articles = newArticles
+            state.articlesByArtisan = newArticlesByArtisan
         },
         deleteArticlePanier(state, payload){
           const newArticles = state.articlesPanier.filter((article) => {
@@ -74,10 +91,17 @@ export const store = new Vuex.Store({
           state.articlesPanier = newArticles
       },
         editArticle(state, payload) {
-            state.articles
+            state.articles.map((article) => {
+              if(payload.id === article.id){
+                article = payload
+              }
+            })
+            state.articles = payload
+            state.articlesByArtisan = payload
         },
         addArticle(state, payload){
             state.articles.push(payload)
+            state.articlesByArtisan.push(payload)
         },
         getArticle(state, payload){
           state.article = payload
@@ -89,8 +113,12 @@ export const store = new Vuex.Store({
           state.commentaires.push(payload)
         },
         signInArtisan(state, payload){
-          state.artisan.email = payload.email
-          state.artisan.mdp = payload.mdp
+          state.artisan.email = payload.email_artisan
+          state.artisan.mdp = payload.password_artisan
+          state.artisan.id = payload.id
+          state.artisan.name = payload.prenom_artisan
+          state.artisan.description = payload.description_artisan
+          state.artisan.img = payload.photo_artisan
           state.artisan.connecter = true
           console.log(state.artisan.email + ' mutation')
         }
@@ -103,9 +131,16 @@ export const store = new Vuex.Store({
                     let articles = response.data
                     articles.map(article => {
                         article.modeEdit = false
+                        console.log(article)
                     })
                     context.commit('getArticles', articles)
                 })
+                .catch((err) => {
+                  console.log(err)
+              })
+        },
+        getArticlesByArtisan(context, payload){
+          context.commit('getArticlesByArtisan', payload)
         },
         addArticlesPanier(context, payload) {
             const article = context.state.articlesPanier.find(item => {
@@ -132,6 +167,7 @@ export const store = new Vuex.Store({
                 description_article: payload.description_article,
                 image_article: payload.image_article,
                 prix_article: payload.prix_article,
+
             }
             context.commit('editArticle', article)
         },
@@ -184,8 +220,8 @@ export const store = new Vuex.Store({
         },
         signInArtisan(context, payload) {
           localStorage.setItem('email', payload.email)
-          context.commit('signInArtisan', {email: payload.email, mdp: payload.mdp})
-          console.log(payload.email + 'action')
+          context.commit('signInArtisan', payload)
+          console.log(payload.email_artisan + 'action')
         }
 
     },
@@ -225,6 +261,9 @@ export const store = new Vuex.Store({
         },
         artisan(state){
           return state.artisan
+        },
+        articlesByArtisan(state){
+          return state.articlesByArtisan
         }
     }
 })

@@ -92,7 +92,8 @@ export default {
       connection: true,
       artisanSignin: {
         email: '',
-        mdp: ''
+        mdp: '',
+        id_artisan: ''
       },
       userSignUp: {
         nom: '',
@@ -132,13 +133,12 @@ export default {
       axios.get(`http://localhost:3000/signinartisan/${this.artisanSignin.email}/${this.artisanSignin.mdp}`)
           .then((response) => {
 
-            if(response.data[0].email_artisan !== this.artisanSignin.email && response.data[0].password !== this.artisanSignin.mdp)
-            this.arti = response.data[0]
-            this.$store.dispatch('signInArtisan', this.artisanSignin)
-            console.log('connecter' + response.data[0].email_artisan)
+            /*if(response.data[0].email_artisan !== this.artisanSignin.email && response.data[0].password !== this.artisanSignin.mdp){
+
+            }*/
+            console.log(response.data[0])
+            this.$store.dispatch('signInArtisan', response.data[0])
             this.connecté = false
-            /*this.arti.email = ''
-            this.arti.mdp = ''*/
           })
           .catch((err) => {
             console.log('error' + err)

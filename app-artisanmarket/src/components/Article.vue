@@ -72,6 +72,9 @@
             </v-list>
           </v-card>
         </v-slide-y-transition>
+        <div>
+          {{artisan.prenom_artisan}}
+        </div>
       </v-card>
   </v-container>
 </template>
@@ -97,7 +100,8 @@ export default {
           detail_commantaire: '',
           auteur_commantaire: '',
           article_id: this.id
-        }
+        },
+        artisan: {}
     }
   },
   created(){
@@ -118,11 +122,22 @@ export default {
       response.data.map((article) => {
         this.article = article
       })
-
+      axios.get(`http://localhost:3000/artisan/${this.article.id_artisan}`)
+      .then((response) => {
+        response.data.map((artisan) => {
+          this.artisan = artisan
+        })
+        console.log(this.artisan)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     })
     .catch((err) => {
       console.log(err)
     })
+    //console.log('id artisan' + this.article.id_artisan)
+
   },
   computed: {
     coms(){

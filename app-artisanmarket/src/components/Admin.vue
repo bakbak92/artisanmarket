@@ -5,6 +5,7 @@
                 <v-btn color="primary" @click="ajoutArticle = true">Ajouter un article <v-icon>add</v-icon></v-btn>
             </div>
             <div class="form" v-if="ajoutArticle">
+              <v-icon @click="ajoutArticle = false " class="close-icon">close</v-icon>
                 <v-form>
                     <v-text-field
                     label="nom article"
@@ -100,6 +101,7 @@
 import axios from 'axios'
 
 export default {
+    props: ['id'],
     data() {
         return {
             dialog: false,
@@ -107,18 +109,29 @@ export default {
                 nom_article: '',
                 description_article: '',
                 prix_article: 0,
-                image_article: ''
+                image_article: '',
+                id_artisan: ''
             },
             ajoutArticle: false
         }
     },
     created(){
+      axios.get(`http://localhost:3000/articlesartisan/${this.id}`)
+      .then((response) => {
+        this.$store.dispatch('getArticlesByArtisan', response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
       this.$store.dispatch('getArticles')
     },
     computed: {
         articles() {
-            return this.$store.getters.articles
+            return this.$store.getters.articlesByArtisan
         },
+        artisan(){
+          return this.$store.getters.artisan
+        }
     },
     methods: {
         edit(article) {
@@ -150,6 +163,8 @@ export default {
             this.$store.dispatch('deleteArticle', article)
         },
         addArticle(){
+          this.article.id_artisan = this.artisan.id
+          console.log(this.article)
             this.$store.dispatch('addArticle', this.article)
             this.ajoutArticle = false
         }
@@ -171,8 +186,26 @@ export default {
           color: #424242;
       }
     }
+    .form{
+          max-width: 400px;
+          width: 100%;
+          /* margin: auto; */
+          position: relative;
+          z-index: 1;
+          border: 2px solid grey;
+          background: #ffff;
+          .v-btn{
+            background-color: #7c73e6!important;
+            color: white;
+          }
+    }
     .v-form{
         padding: 1rem;
+    }
+    .close-icon{
+          position: absolute;
+          right: 0;
+          cursor: pointer;
     }
     button.v-btn.primary {
       background-color: #7c73e6!important;
