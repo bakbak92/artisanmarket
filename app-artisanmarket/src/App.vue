@@ -45,7 +45,7 @@
           <v-icon left>shopping_basket</v-icon>
           Articles
         </v-btn>
-        <v-btn v-if="artisanConnecter.connecter !== true" flat router to="/Sign">
+        <v-btn v-if="artisanConnecter.connecter !== true" flat router to="/Signin">
           <v-icon left>person</v-icon>
           Se connecter / S'inscrire
         </v-btn>

@@ -5,7 +5,7 @@
         <p>Prenom</p>
         <v-text-field
           placeholder="Placeholder"
-          v-model="artisan.name"
+          v-model="artisan.prenom_artisan"
           solo
         ></v-text-field>
       </div>
@@ -13,7 +13,7 @@
         <p>Email</p>
         <v-text-field
           placeholder="Placeholder"
-          v-model="artisan.email"
+          v-model="artisan.email_artisan"
           solo
         ></v-text-field>
       </div>
@@ -21,7 +21,7 @@
         <p>Description</p>
         <v-text-field
           placeholder="Placeholder"
-          v-model="artisan.description"
+          v-model="artisan.description_artisan"
           solo
         ></v-text-field>
       </div>
@@ -29,10 +29,15 @@
         <p>Photo de profil</p>
         <v-text-field
           placeholder="Placeholder"
-          v-model="artisan.img"
+          v-model="artisan.photo_artisan"
           solo
         ></v-text-field>
-        <img :src="artisan.img" alt="">
+        <img :src="artisan.photo_artisan" alt="">
+      </div>
+      <div class="input-form">
+        <v-btn @click="edit">
+          Modifier profil
+        </v-btn>
       </div>
   </v-container>
 </template>
@@ -46,6 +51,17 @@ export default {
   computed: {
     artisan(){
       return this.$store.getters.artisan
+    }
+  },
+  methods:{
+    edit(){
+      axios.put('http://localhost:3000/editartisan', this.artisan)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   }
 }

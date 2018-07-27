@@ -37,12 +37,12 @@ export const store = new Vuex.Store({
 
         ],
         artisan: {
-          email: '',
-          mdp: '',
           id: '',
-          name: '',
-          img: '',
-          description: '',
+          prenom_artisan: '',
+          email_artisan: '',
+          password_artisan: '',
+          photo_artisan: '',
+          description_artisan: '',
           connecter: false
         },
         articlesByArtisan: []
@@ -113,20 +113,20 @@ export const store = new Vuex.Store({
           state.commentaires.push(payload)
         },
         signInArtisan(state, payload){
-          state.artisan.email = payload.email_artisan
-          state.artisan.mdp = payload.password_artisan
           state.artisan.id = payload.id
-          state.artisan.name = payload.prenom_artisan
-          state.artisan.description = payload.description_artisan
-          state.artisan.img = payload.photo_artisan
+          state.artisan.prenom_artisan = payload.prenom_artisan
+          state.artisan.email_artisan = payload.email_artisan
+          state.artisan.password_artisan = payload.password_artisan
+          state.artisan.description_artisan = payload.description_artisan
+          state.artisan.photo_artisan = payload.photo_artisan
           state.artisan.connecter = true
-          console.log(state.artisan.email + ' mutation')
+          console.log(state.artisan.email_artisan + ' mutation')
         }
 
     },
     actions: {
         getArticles(context){
-            axios.get('http://localhost:3000/articles')
+            axios.get('http://localhost:3000/jointure')
                 .then((response) => {
                     let articles = response.data
                     articles.map(article => {
@@ -219,7 +219,6 @@ export const store = new Vuex.Store({
           context.commit('addCommentaire', payload)
         },
         signInArtisan(context, payload) {
-          localStorage.setItem('email', payload.email)
           context.commit('signInArtisan', payload)
           console.log(payload.email_artisan + 'action')
         }

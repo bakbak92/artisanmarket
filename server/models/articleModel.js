@@ -14,17 +14,13 @@ module.exports = {
             description_article,
             image_article,
             prix_article,
-            id_artisan,
-            prenom_artisan,
-            photo_artisan
+            id_artisan
         ) VALUES(
             '${nom_article}',
             '${description_article}',
             '${image_article}',
             '${prix_article}',
-            '${id_artisan}',
-            '${prenom_artisan}',
-            '${photo_artisan}'
+            '${id_artisan}'
         )`)
     },
     updateArticle({id, nom_article, description_article, image_article, prix_article}) {
@@ -35,6 +31,11 @@ module.exports = {
             prix_article = '${prix_article}'
             WHERE id = '${id}'
         `)
+    },
+    jointure(){
+        return db.connectQuery(`SELECT *
+        FROM articles
+        INNER JOIN artisans ON articles.id_artisan = artisans.id`)
     },
     deleteArticle({id}){
         return db.connectQuery(`DELETE FROM articles WHERE id = ${id}`)
