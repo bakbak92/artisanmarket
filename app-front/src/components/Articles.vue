@@ -7,7 +7,7 @@
                     <v-card-media
                     :src="article.image_article"
                     height="200px"
-                    @click="viewArticle(article)"
+                    
                     ></v-card-media>
 
                     <v-card-title primary-title>
@@ -135,7 +135,7 @@ export default {
     }
 }
 .v-card__media{
-  cursor: pointer!important;
+  //cursor: pointer!important;
 }
 .artisan{
   position: relative;
