@@ -16,15 +16,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/signupartisan', function(req, res) {
-  const {prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan} = req.body
-  artisanModel.signUpArtisan({prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan})
+  const {nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan} = req.body
+  artisanModel.signUpArtisan({nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan})
   .then(result => res.json(result))
   .catch(err => res.json(err))
 })
 
 app.post('/article', function(req, res) {
-  const {nom_article, description_article, image_article, prix_article, id_artisan} = req.body;
-  articleModel.addArticle({nom_article, description_article, image_article, prix_article, id_artisan})
+  const {nom_article, description_article, image_article, prix_article, id_artisan, prenom_artisan, photo_artisan} = req.body;
+  articleModel.addArticle({nom_article, description_article, image_article, prix_article, id_artisan, prenom_artisan, photo_artisan})
   .then(result => res.json(result))
   .catch(err => res.json(err))
 })
@@ -43,14 +43,9 @@ app.get('/artisan/:id_artisan', function(req, res) {
   .then(result => res.json(result))
   .catch(err => res.json(err))
 })
-app.get('/jointure', function(req, res) {
-  articleModel.jointure()
-  .then(result => res.json(result))
-  .catch(err => res.json(err))
-})
 app.put('/editartisan', function(req, res) {
-  const {id, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan} = req.body
-  artisanModel.editArtisan({id, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan})
+  const {id, nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan} = req.body
+  artisanModel.editArtisan({id, nom_artisan, prenom_artisan, description_artisan, email_artisan, password_artisan, photo_artisan})
   .then(result => res.json(result))
   .catch(err => res.json(err))
 
